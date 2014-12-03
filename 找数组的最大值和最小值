@@ -1,0 +1,43 @@
+#include<iostream>
+using namespace std;
+//利用分治算法求一个数组的最大值和最小值
+void find_max_min(int a[], int n, int left, int right, int &max_t, int &min_t)
+{
+	if(left == right){
+		max_t = a[left];
+		min_t = a[right];
+		return;
+	}
+	if((left+1) == right){
+		if(a[left] > a[right]){
+			max_t = a[left];
+			min_t = a[right];
+		}
+		else{
+			max_t = a[right];
+			min_t = a[left];
+		}
+		return;
+	}
+	int mid = (left+right)/2;
+	
+	int max_left, min_left;
+	find_max_min(a, n, left, mid, max_left, min_left);      //递归地找左半部分的最值
+	
+	int max_right, min_right;
+	find_max_min(a, n, mid+1, right, max_right, min_right); //递归地找有半部分的最值
+	
+	max_t = max(max_left, max_right);
+	min_t = min(min_left, min_right);
+}
+
+int main()
+{
+	int a[6] = {3, 6, -1, 0, 4, 3};
+	int max_t, min_t;
+	find_max_min(a, 6, 0, 5, max_t, min_t);
+	cout<<"The max value is: "<<max_t<<endl;
+	cout<<"The min value is: "<<min_t<<endl;
+
+	return 0;
+}
